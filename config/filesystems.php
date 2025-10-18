@@ -1,4 +1,4 @@
-git remote add origin https://github.com/farasalgh/jurnal-harian.git<?php
+<?php
 
 return [
 
