@@ -22,7 +22,10 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         //
-        $crendentials = $request->only('email','password');
+        $crendentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:8'],
+        ]);
 
         if (Auth::attempt($crendentials)) {
             $user = Auth::user();
@@ -38,16 +41,18 @@ class AuthController extends Controller
                 Auth::logout();
                 return redirect()->back()->with('error', 'role tidak ditemukan');
             }
-
         } else {
-            return redirect()->back()->with('error','email atau password salah');
+            return redirect()->back()->withErrors([
+                'email'=> 'email, atau password salah',
+            ])->onlyInput('email');
         }
-        
     }
 
-    public function register(Request $request)
+    public function logout(Request $request)
     {
-        
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerate();
+        return redirect()->route('login')->with('success', 'Anda telah berhasil logout.');
     }
-
 }
