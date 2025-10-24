@@ -39,11 +39,42 @@ class SiswaController extends Controller
         $dudi = Dudi::all();
         $pembimbing = User::where('role', 'pembimbing')->get();
 
-        return view('admin.siswa.edit', compact('userData', 'siswaData', 'kelas','jurusan','dudi', 'pembimbing'));
+        return view('admin.siswa.edit', compact('siswa','userData', 'siswaData', 'kelas','jurusan','dudi', 'pembimbing'));
     }
 
-    public function update(User $siswa)
+    public function update(Request $request, User $siswa)
     {  
+        $request->validate([
+            'name' => 'required|string|',
+            'email'=> 'required|email|unique:users,email,' . $siswa->id,
+            'password' => 'nullable|string|min:8',
+
+            'nis'=> 'required',
+            'id_kelas' => 'required',
+            'id_pembimbing'=> 'required',
+            'id_jurusan'=> 'required',
+            'id_dudi' => 'required',
+        ]);
+
+        $siswa->name = $request->name;
+        $siswa->email = $request->email;
+
+        if($request->filled('password')) {
+            $siswa->password = Hash::make($request->password);
+        };
+
+        $siswa->save();
+
+        $siswaData = $siswa->siswa;
+
+        $siswaData->nis = $request->nis;
+        $siswaData->id_kelas = $request->id_kelas;
+        $siswaData->id_jurusan = $request->id_jurusan;
+        $siswaData->id_dudi = $request->id_dudi;
+        $siswaData->id_pembimbing = $request->id_pembimbing;
+        $siswaData->save();
+
+        return redirect()->route('admin.siswa.index')->with('success','Berhasil mengupdate data');
     }
 
     public function store(Request $request)
@@ -64,7 +95,7 @@ class SiswaController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'siswa',
-        ]);
+        ]); 
 
         Siswa::create([
             'id_users' => $user->id,

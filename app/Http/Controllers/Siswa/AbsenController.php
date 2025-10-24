@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Siswa;
 
-use App\Models\Siswa;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class SiswaController extends Controller
+class AbsenController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class SiswaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Siswa $siswa)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +42,7 @@ class SiswaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Siswa $siswa)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +50,7 @@ class SiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Siswa $siswa)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +58,7 @@ class SiswaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Siswa $siswa)
+    public function destroy(string $id)
     {
         //
     }

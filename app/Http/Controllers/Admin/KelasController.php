@@ -18,7 +18,6 @@ class KelasController extends Controller
     public function create()
     {
         return view('admin.kelas.create');
-
     }
 
     public function store(Request $request)
@@ -28,13 +27,13 @@ class KelasController extends Controller
         ]);
 
         Kelas::create([
-            'kelas'=> $request->kelas,
+            'kelas' => $request->kelas,
         ]);
 
         return redirect()->route('admin.kelas.index')->with('success', 'Berhasil menambahkan kelas');
     }
 
-    public function edit($id)   
+    public function edit($id)
     {
         $kelas = Kelas::find($id);
         return view('admin.kelas.edit', compact('kelas'));
@@ -42,11 +41,16 @@ class KelasController extends Controller
 
     public function update(Request $request, $id)
     {
-       $kelas = Kelas::find($id);
+        $kelas = Kelas::find($id);
 
-       $kelas->update($request->all());
+        $request->validate([
+            'kelas' => 'required',
+        ]);
 
-       return redirect()->route('admin.kelas.index')->with('success','Berhasil ubah kelas');
+
+        $kelas->update($request->all());
+
+        return redirect()->route('admin.kelas.index')->with('success', 'Berhasil ubah kelas');
     }
 
     public function destroy($id)

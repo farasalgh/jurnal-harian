@@ -70,7 +70,7 @@
 
         <div class="d-flex gap-3 justfiy-content-start">
             <button type="submit" class="btn bg-gradient-dark my-4 mb-2">Tambah Data</button>
-            <a href="" class="btn bg-gradient-primary my-4 mb-2 ">Kembali</a>
+            <a href="{{ route('admin.siswa.index') }}" class="btn bg-gradient-primary my-4 mb-2 ">Kembali</a>
         </div>
     </form>
 </div>

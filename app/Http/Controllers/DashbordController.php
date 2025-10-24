@@ -14,22 +14,30 @@ class DashbordController extends Controller
     public function admin()
     {
         $totalKelas = Kelas::count();
-        $totalJurusan = Jurusan ::count();
+        $totalJurusan = Jurusan::count();
         $totalDudi = Dudi::count();
         $totalPembimbing = User::where('role', 'pembimbing')->count();
         $totalSiswa = User::where('role', 'siswa')->count();
-        return view('admin.dashboard',compact('totalKelas','totalJurusan','totalDudi','totalPembimbing','totalSiswa'));
-
-        
+        return view('admin.dashboard', compact('totalKelas', 'totalJurusan', 'totalDudi', 'totalPembimbing', 'totalSiswa'));
     }
 
     public function pembimbing()
     {
-        return view('pembimbing.dashboard');
+        $totalKelas = Kelas::count();
+        $totalJurusan = Jurusan::count();
+        $totalDudi = Dudi::count();
+        $totalPembimbing = User::where('role', 'pembimbing')->count();
+        $totalSiswa = User::where('role', 'siswa')->count();
+        return view('pembimbing.dashboard', compact('totalKelas', 'totalJurusan', 'totalDudi', 'totalPembimbing', 'totalSiswa'));
     }
 
     public function siswa()
     {
-        return view('siswa.dashboard');
+        $totalKelas = Kelas::count();
+        $totalJurusan = Jurusan::count();
+        $totalDudi = Dudi::count();
+        $totalPembimbing = User::where('role', 'pembimbing')->count();
+        $totalSiswa = User::where('role', 'siswa')->count();
+        return view('siswa.dashboard', compact('totalKelas', 'totalJurusan', 'totalDudi', 'totalPembimbing', 'totalSiswa'));
     }
 }

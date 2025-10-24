@@ -42,6 +42,9 @@
                                 <a style="position: relative; top:7px;" href="{{ route('admin.dudi.show', $dd->id) }}" class="btn bg-gradient-dark" data-toggle="tooltip" data-original-title="Edit user">
                                     Detailed
                                 </a>
+                                <a style="position: relative; top:7px;" href="{{ route('admin.dudi.edit', $dd->id) }}" class="btn btn-warning" data-toggle="tooltip" data-original-title="Edit user">
+                                    Edit
+                                </a>
                                 <form action="{{ route('admin.dudi.destroy', $dd->id) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
                                     <button style="position: relative; top:7px;" class="btn btn-danger" onclick="return confirm('Hapus produk ini?')">Hapus</button>

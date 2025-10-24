@@ -11,8 +11,8 @@
         {{ $errors->first() }}
     </div>
     @endif
-    <form action="" method="post" role="form" class="text-start">
-        @csrf
+    <form action="{{ route('admin.siswa.update', $siswa->id) }}" method="post" role="form" class="text-start">
+        @csrf @method('PUT')
         <div class="input-group input-group-outline my-3">
             <select name="id_kelas" class="form-control" aria-label="Default select example">
                 <option value="">-- Pilih Kelas --</option>
@@ -24,7 +24,7 @@
             </select>
         </div>
         <div class="input-group input-group-outline mb-3">
-            <select name="jurusan_id" class="form-control">
+            <select name="id_jurusan" class="form-control">
                 <option value="">-- Pilih Jurusan --</option>
                 @foreach($jurusan as $j)
                 <option value="{{ $j->id }}" {{ (old('id_jurusan', $siswaData->id_jurusan ?? '') == $j->id) ? 'selected' : '' }}>
@@ -79,7 +79,7 @@
 
         <div class="d-flex gap-3 justfiy-content-start">
             <button type="submit" class="btn bg-gradient-dark my-4 mb-2">Tambah Data</button>
-            <a href="" class="btn bg-gradient-primary my-4 mb-2 ">Kembali</a>
+            <a href="{{ route('admin.siswa.index') }}" class="btn bg-gradient-primary my-4 mb-2 ">Kembali</a>
         </div>
     </form>
 </div>

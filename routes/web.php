@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashbordController;
+use App\Http\Controllers\Siswa\KegiatanController;
+use App\Http\Controllers\Siswa\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -44,5 +46,14 @@ Route::prefix('pembimbing')->name('pembimbing.')->middleware('auth')->group(func
 
     Route::middleware(['auth', 'role:pembimbing'])->group(function () {
         Route::get('/dashboard', [DashbordController::class, 'pembimbing'])->name('dashboard');
+    });
+});
+
+Route::prefix('siswa')->name('siswa.')->middleware('auth')->group(function () {
+
+    Route::middleware(['auth', 'role:siswa'])->group(function () {
+        Route::get('/dashboard', [DashbordController::class, 'siswa'])->name('dashboard');
+        Route::resource('profile', ProfileController::class);
+        Route::resource('kegiatan', KegiatanController::class);
     });
 });

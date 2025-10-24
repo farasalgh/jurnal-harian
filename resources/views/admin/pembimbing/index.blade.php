@@ -20,19 +20,22 @@
                 <table class="table align-items-center mb-0">
                     <thead>
                         <tr>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created-at</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                            <th class="text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7">No</th>
+                            <th class="text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7">Name</th>
+                            <th class="text-uppercase text-secondary text-center text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
+                            <th class="text-center text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">Created-at</th>
+                            <th class="text-center text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody>`
                         @foreach ($pembimbing as $pb)
                         <tr>
-                            <td class="align-middle text-sm">{{ $pb->name }}</td>
-                            <td class="align-middle text-left text-sm">{{ $pb->email }}</td>
-                            <td class="align-middle text-center text-sm">{{ $pb->created_at->format('d-m-Y H:i') }}</td>
-                            <td class="align-middle text-center">
+                            <td class="align-middle text-center text-sm">{{ $loop->iteration }}</td>
+                            <td class="align-middle text-center text-sm">{{ $pb->name }}</td>
+                            <td class="align-middle text-center text-left text-sm">{{ $pb->email }}</td>
+                            <td class="align-middle text-center text-center text-sm">{{ $pb->created_at->format('d-m-Y H:i') }}</td>
+                            <td class="align-middle text-center text-center">
+                                <a style="position: relative; top:7px;" href="{{ route('admin.pembimbing.edit', $pb->id) }}" class="btn btn-warning">Edit</a>
                                 <form action="{{ route('admin.siswa.destroy', $pb->id) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
                                     <button style="position: relative; top:7px;" class="btn btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</button>

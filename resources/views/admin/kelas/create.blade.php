@@ -7,10 +7,13 @@
 <div class="p-3 card-body">
     <form action="{{ route('admin.kelas.store') }}" method="post" role="form" class="text-start">
         @csrf
-        <div class="input-group input-group-outline my-3">
+        <div class="input-group input-group-outline ">
             <label class="form-label">Nama kelas</label>
             <input type="text" name="kelas" class="form-control">
         </div>
+        @error('kelas')
+        <div class="text-danger">{{ $message }}</div>
+        @enderror
         <div class="d-flex gap-3 justfiy-content-start">
             <button type="submit" class="btn bg-gradient-dark my-4 mb-2">Tambah Data</button>
             <a href="" class="btn bg-gradient-primary my-4 mb-2 ">Kembali</a>

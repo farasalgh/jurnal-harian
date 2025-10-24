@@ -24,6 +24,7 @@
                         <tr>
                             <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
                             <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
+                            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tempat dudi</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created-at</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                         </tr>
@@ -33,6 +34,7 @@
                         <tr>
                             <td class="align-middle text-center text-sm">{{ $sw->name }}</td>
                             <td class="align-middle text-center text-left text-sm">{{ $sw->email }}</td>
+                            <td class="align-middle text-center text-left text-sm">{{ $sw->siswa->dudi->nama_dudi ?? '-' }}</td>
                             <td class="align-middle text-center text-sm">{{ $sw->created_at->format('d-m-Y H:i') }}</td>
                             <td class="align-middle text-center">
                                 <a style="position: relative; top:7px;" href="{{ route('admin.siswa.edit', $sw->id) }}" class="btn btn-warning">Edit</a>

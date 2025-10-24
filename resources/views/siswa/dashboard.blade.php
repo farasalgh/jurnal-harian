@@ -15,11 +15,11 @@
       <div class="card-header p-2 ps-3">
         <div class="d-flex justify-content-between">
           <div>
-            <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-            <h4 class="mb-0">$53k</h4>
+            <p class="text-sm mb-0 text-capitalize">Total Jurusan</p>
+            <h4 class="mb-0">{{ $totalJurusan }}</h4>
           </div>
           <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-            <i class="material-symbols-rounded opacity-10">weekend</i>
+            <i class="material-symbols-rounded opacity-10">school</i>
           </div>
         </div>
       </div>
@@ -34,8 +34,8 @@
       <div class="card-header p-2 ps-3">
         <div class="d-flex justify-content-between">
           <div>
-            <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-            <h4 class="mb-0">2300</h4>
+            <p class="text-sm mb-0 text-capitalize">Total User</p>
+            <h4 class="mb-0">{{ $totalKelas }}</h4>
           </div>
           <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
             <i class="material-symbols-rounded opacity-10">person</i>
@@ -53,11 +53,11 @@
       <div class="card-header p-2 ps-3">
         <div class="d-flex justify-content-between">
           <div>
-            <p class="text-sm mb-0 text-capitalize">Ads Views</p>
-            <h4 class="mb-0">3,462</h4>
+            <p class="text-sm mb-0 text-capitalize">Total Dunia Kerja</p>
+            <h4 class="mb-0">{{ $totalDudi }}</h4>
           </div>
           <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-            <i class="material-symbols-rounded opacity-10">leaderboard</i>
+            <i class="material-symbols-rounded opacity-10">corporate_fare</i>
           </div>
         </div>
       </div>
@@ -72,11 +72,11 @@
       <div class="card-header p-2 ps-3">
         <div class="d-flex justify-content-between">
           <div>
-            <p class="text-sm mb-0 text-capitalize">Sales</p>
-            <h4 class="mb-0">$103,430</h4>
+            <p class="text-sm mb-0 text-capitalize">Total Siswa</p>
+            <h4 class="mb-0">{{ $totalSiswa }}</h4>
           </div>
           <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-            <i class="material-symbols-rounded opacity-10">weekend</i>
+            <i class="material-symbols-rounded opacity-10">person_book</i>
           </div>
         </div>
       </div>

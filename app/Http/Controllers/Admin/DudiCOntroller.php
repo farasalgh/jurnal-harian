@@ -34,17 +34,17 @@ class DudiCOntroller extends Controller
     {
         //
         $request->validate([
-            "nama_dudi"=> "required",
-            "jenis_dudi"=> "required",
-            "alamat"=> "required",
-            "kontak"=> "required",
-            "pimpinan"=> "required",
-            "pembimbing"=> "required",
+            "nama_dudi" => "required",
+            "jenis_dudi" => "required",
+            "alamat" => "required",
+            "kontak" => "required",
+            "pimpinan" => "required",
+            "pembimbing" => "required",
         ]);
 
         Dudi::create($request->all());
 
-        return redirect()->route("admin.dudi.index")->with("success","Berhasil menambahkan dudi");
+        return redirect()->route("admin.dudi.index")->with("success", "Berhasil menambahkan dudi");
     }
 
     /**
@@ -63,6 +63,9 @@ class DudiCOntroller extends Controller
     public function edit(string $id)
     {
         //
+        $dudi = Dudi::find($id);
+
+        return view("admin.dudi.edit", compact("dudi"));
     }
 
     /**
@@ -71,6 +74,25 @@ class DudiCOntroller extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $request->validate([
+            "nama_dudi" => "required",
+            "jenis_dudi" => "required",
+            "alamat" => "required",
+            "kontak" => "required",
+            "pimpinan" => "required",
+            "pembimbing" => "required",
+        ]);
+
+        Dudi::find($id)->update([
+            "nama_dudi"=> $request->nama_dudi,
+            "jenis_dudi"=> $request->jenis_dudi,
+            "alamat"=> $request->alamat,
+            "kontak"=> $request->kontak,
+            "pimpinan"=> $request->pimpinan,
+            "pembimbing"=> $request->pembimbing,
+        ]);
+
+        return redirect()->route("admin.dudi.index")->with("success","Dudi berhasil diupdate");
     }
 
     /**
@@ -80,6 +102,6 @@ class DudiCOntroller extends Controller
     {
         //
         $dudi->delete();
-        return redirect()->route("admin.dudi.index")->with("success","data Dudi berhasil dihapus");
+        return redirect()->route("admin.dudi.index")->with("success", "data Dudi berhasil dihapus");
     }
 }

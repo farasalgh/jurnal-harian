@@ -13,6 +13,7 @@ class Siswa extends Model
         'id_jurusan',
         'nis',
         'tempat_lahir',
+        'tanggal_lahir',
         'gender',
         'gol_darah',
         'alamat',
@@ -28,27 +29,29 @@ class Siswa extends Model
 
     public function jurusan()
     {
-        return $this->belongsTo(Jurusan::class,'id_jurusan');
+        return $this->belongsTo(Jurusan::class, 'id_jurusan');
     }
 
     public function dudi()
     {
-        return $this->belongsTo(Dudi::class,'id_dudi');
+        return $this->belongsTo(Dudi::class, 'id_dudi');
     }
 
-    public function kegiatan(){
-        return $this->hasMany(Kegiatan::class,'id_siswa');
+    public function kegiatan()
+    {
+        return $this->hasMany(Kegiatan::class, 'id_siswa');
     }
 
     public function pembimbing()
     {
-        return $this->belongsTo(User::class,'id_pembimbing');
+        return $this->belongsTo(User::class, 'id_pembimbing');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'id_users');
     }
+
 
     public function absen()
     {
