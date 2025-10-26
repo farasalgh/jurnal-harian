@@ -39,7 +39,7 @@
             <select name="id_dudi" class="form-control form-select" aria-label="Default select example">
                 <option class="form-label" selected>Pilih Dunia Kerja</option>
                 @foreach ($dudi as $d)
-                <option name="id_pembimbing" value="{{ $d->id }}">{{ $d->name }}</option>
+                <option name="id_dudi" value="{{ $d->id }}">{{ $d->nama_dudi }}</option>
                 @endforeach
             </select>
         </div>

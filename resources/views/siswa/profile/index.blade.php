@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Profile Siswa')
+
 @section('page-title', 'Profile Siswa')
 
 @section('content')
@@ -164,7 +166,7 @@
                                 </div>
                                 <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto" href="javascript:;">View</a>
                                 @else
-                                <p>Belum ada pembimbing yang ditetapkan.</p>
+                                <p>Belum ada dudi yang ditetapkan.</p>
                                 @endif
                             </li>
                             <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
@@ -178,7 +180,7 @@
                                 </div>
                                 <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto" href="javascript:;">View</a>
                                 @else
-                                <p>Belum ada pembimbing yang ditetapkan.</p>
+                                <p>Belum ada pembimbing dudi yang ditetapkan.</p>
                                 @endif
                             </li>
                         </ul>

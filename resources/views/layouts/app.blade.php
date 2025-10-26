@@ -146,6 +146,16 @@
           </li>
         @endif
 
+        @if (Auth::user() && Auth::user()->role === 'siswa')
+          <li class="nav-item mt-1">
+            <a class="nav-link text-dark{{ request()->routeIs('siswa.absen.index') ? 'active bg-gradient-dark text-white' : '' }}"
+              href="{{ route('siswa.absen.index') }}">
+              <i class="material-symbols-rounded opacity-5">calendar_check</i>
+              <span class="nav-link-text ms-1">Kelola Absen</span>
+            </a>
+          </li>
+        @endif
+
       </ul>
     </div>
     <div class="sidenav-footer position-absolute w-100 bottom-0">
