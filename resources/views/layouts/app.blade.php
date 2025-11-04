@@ -126,6 +126,27 @@
           </li>
         @endif
 
+
+        @if (Auth::user() && Auth::user()->role === 'admin')
+          <li class="nav-item mt-1">
+            <a class="nav-link text-dark{{ request()->routeIs('admin.kegiatan.index') ? 'active bg-gradient-dark text-white' : '' }}"
+              href="{{ route('admin.kegiatan.index') }}">
+              <i class="material-symbols-rounded opacity-5">work</i>
+              <span class="nav-link-text ms-1">Kelola kegiatan</span>
+            </a>
+          </li>
+        @endif
+
+        @if (Auth::user() && Auth::user()->role === 'admin')
+          <li class="nav-item mt-1">
+            <a class="nav-link text-dark{{ request()->routeIs('admin.absen.index') ? 'active bg-gradient-dark text-white' : '' }}"
+              href="{{ route('admin.absen.index') }}">
+              <i class="material-symbols-rounded opacity-5">work</i>
+              <span class="nav-link-text ms-1">Kelola Absen</span>
+            </a>
+          </li>
+        @endif
+
         @if (Auth::user() && Auth::user()->role === 'siswa')
           <li class="nav-item mt-1">
             <a class="nav-link text-dark{{ request()->routeIs('siswa.profile.index') ? 'active bg-gradient-dark text-white' : '' }}"

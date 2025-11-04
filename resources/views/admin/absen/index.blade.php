@@ -94,7 +94,7 @@
           $('#absenDetail').addClass('d-none');
 
           // Fetch data absensi untuk tanggal yang diklik
-          $.get("{{ route('siswa.absen.by-date') }}", { tanggal: tanggal })
+          $.get("{{ route('admin.absen.by-date') }}", { tanggal: tanggal })
             .done(function (data) {
               console.log("Response data:", data);
 

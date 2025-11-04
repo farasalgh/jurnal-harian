@@ -22,8 +22,9 @@ class ProfileController extends Controller
         $kelas = Kelas::all();
         $jurusan = Jurusan::all();
         $dudi = $siswa ? $siswa->dudi : null;
+        $kegiatan = $siswa ? $siswa->kegiatan : null;
 
-        return view("siswa.profile.index", compact('siswa', 'user', 'pembimbing', 'kelas', 'jurusan', 'dudi'));
+        return view("siswa.profile.index", compact('siswa', 'user', 'pembimbing', 'kelas', 'jurusan', 'dudi', 'kegiatan'));
     }
 
     public function update(Request $request, $id)

@@ -10,16 +10,16 @@
       Check the sales, value and bounce rate by country.
     </p>
   </div>
-  <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+  <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
     <div class="card">
       <div class="card-header p-2 ps-3">
         <div class="d-flex justify-content-between">
           <div>
-            <p class="text-sm mb-0 text-capitalize">Total Jurusan</p>
-            <h4 class="mb-0">{{ $totalJurusan }}</h4>
+            <p class="text-sm mb-0 text-capitalize">Total Kegiatan</p>
+            <h4 class="mb-0">{{ $totalKegiatan }}</h4>
           </div>
           <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-            <i class="material-symbols-rounded opacity-10">school</i>
+            <i class="material-symbols-rounded opacity-10">task</i>
           </div>
         </div>
       </div>
@@ -29,60 +29,22 @@
       </div>
     </div>
   </div>
-  <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+  <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
     <div class="card">
       <div class="card-header p-2 ps-3">
         <div class="d-flex justify-content-between">
           <div>
-            <p class="text-sm mb-0 text-capitalize">Total User</p>
-            <h4 class="mb-0">{{ $totalKelas }}</h4>
+            <p class="text-sm mb-0 text-capitalize">Total Absen</p>
+            <h4 class="mb-0">{{ $totalAbsen }}</h4>
           </div>
           <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-            <i class="material-symbols-rounded opacity-10">person</i>
+            <i class="material-symbols-rounded opacity-10">checkbook</i>
           </div>
         </div>
       </div>
       <hr class="dark horizontal my-0">
       <div class="card-footer p-2 ps-3">
         <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span>than last month</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-    <div class="card">
-      <div class="card-header p-2 ps-3">
-        <div class="d-flex justify-content-between">
-          <div>
-            <p class="text-sm mb-0 text-capitalize">Total Dunia Kerja</p>
-            <h4 class="mb-0">{{ $totalDudi }}</h4>
-          </div>
-          <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-            <i class="material-symbols-rounded opacity-10">corporate_fare</i>
-          </div>
-        </div>
-      </div>
-      <hr class="dark horizontal my-0">
-      <div class="card-footer p-2 ps-3">
-        <p class="mb-0 text-sm"><span class="text-danger font-weight-bolder">-2% </span>than yesterday</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-3 col-sm-6">
-    <div class="card">
-      <div class="card-header p-2 ps-3">
-        <div class="d-flex justify-content-between">
-          <div>
-            <p class="text-sm mb-0 text-capitalize">Total Siswa</p>
-            <h4 class="mb-0">{{ $totalSiswa }}</h4>
-          </div>
-          <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-            <i class="material-symbols-rounded opacity-10">person_book</i>
-          </div>
-        </div>
-      </div>
-      <hr class="dark horizontal my-0">
-      <div class="card-footer p-2 ps-3">
-        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span>than yesterday</p>
       </div>
     </div>
   </div>

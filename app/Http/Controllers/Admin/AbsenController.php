@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Siswa;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absen;
 use Illuminate\Http\Request;
-use Log;
 
 class AbsenController extends Controller
 {
@@ -14,16 +13,12 @@ class AbsenController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-
-        $siswa = $user->siswa;
-
-        $absens = $siswa->absen;
+        $absens = Absen::with(['siswa'])->get();
 
         $events = $absens->map(function ($absen) {
             return [
                 'id' => $absen->id,
-                'title' => ucfirst($absen->status),
+                'title' => $absen->siswa->user->name . ' - ' . ucfirst($absen->status),
                 'start' => $absen->tanggal_absensi,
                 'color' => match ($absen->status) {
                     'hadir' => '#28a745',
@@ -37,14 +32,11 @@ class AbsenController extends Controller
         return view('siswa.absen.index', compact('events'));
     }
 
-    public function getByDate(Request $request)
+
+     public function getByDate(Request $request)
     {
         $tanggal = $request->input('tanggal');
-        $user = auth()->user();
-
-        if (!$user->siswa) {
-            return response()->json(['error' => 'Data siswa tidak ditemukan'], 404);
-        }
+        $user = $request->user();
 
         $absen = $user->siswa->absen()
             ->whereDate('tanggal_absensi', $tanggal)
@@ -63,8 +55,6 @@ class AbsenController extends Controller
         return response()->json(['message' => 'Tidak ada data absen di tanggal ini.'], 404);
     }
 
-
-
     /**
      * Show the form for creating a new resource.
      */
@@ -79,28 +69,6 @@ class AbsenController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'tanggal_absensi' => 'required|date',
-            'status' => 'required|in:hadir,sakit,izin,alpa',
-            'keterangan' => 'nullable|string',
-        ]);
-
-        $siswa = auth()->user()->siswa ?? null;
-
-        Absen::updateOrCreate(
-            [
-                'tanggal_absensi' => $request->tanggal_absensi,
-                'id_siswa' => $siswa->id,
-            ],
-            [
-                'jam_masuk' => now()->format('H:i'),
-                'jam_pulang' => now()->format('H:i'),
-                'status' => $request->status,
-                'keterangan' => $request->keterangan,
-            ]
-        );
-
-        return response()->json(['success' => 'true']);
     }
 
     /**

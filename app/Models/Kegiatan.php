@@ -19,6 +19,6 @@ class Kegiatan extends Model
 
     public function siswa()
     {
-        return $this->belongsTo(Siswa::class, 'id_users');
+        return $this->belongsTo(Siswa::class, 'id_siswa');
     }
 }

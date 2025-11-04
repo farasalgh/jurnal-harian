@@ -24,6 +24,8 @@
                         <tr>
                             <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
                             <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
+                            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Kelas</th>
+                            <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Jurusan</th>
                             <th class="text-uppercase text-center text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tempat dudi</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created-at</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
@@ -32,13 +34,15 @@
                     <tbody>
                         @foreach ($siswa as $sw)
                         <tr>
-                            <td class="align-middle text-center text-sm">{{ $sw->name }}</td>
-                            <td class="align-middle text-center text-left text-sm">{{ $sw->email }}</td>
-                            <td class="align-middle text-center text-left text-sm">{{ $sw->siswa->dudi->nama_dudi ?? '-' }}</td>
+                            <td class="align-middle text-center text-sm">{{ $sw->user->name }}</td>
+                            <td class="align-middle text-center text-left text-sm">{{ $sw->user->email }}</td>
+                            <td class="align-middle text-center text-left text-sm">{{ $sw->kelas->kelas }}</td>
+                            <td class="align-middle text-center text-left text-sm">{{ $sw->jurusan->jurusan }}</td>
+                            <td class="align-middle text-center text-left text-sm">{{ $sw->dudi->nama_dudi ?? '-' }}</td>
                             <td class="align-middle text-center text-sm">{{ $sw->created_at->format('d-m-Y H:i') }}</td>
                             <td class="align-middle text-center">
-                                <a style="position: relative; top:7px;" href="{{ route('admin.siswa.edit', $sw->id) }}" class="btn btn-warning">Edit</a>
-                                <form action="{{ route('admin.siswa.destroy', $sw->id) }}" method="POST" class="d-inline">
+                                <a style="position: relative; top:7px;" href="{{ route('admin.siswa.edit', $sw->user->id) }}" class="btn btn-warning">Edit</a>
+                                <form action="{{ route('admin.siswa.destroy', $sw->user->id) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
                                     <button style="position: relative; top:7px;" class="btn btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</button>
                                 </form>

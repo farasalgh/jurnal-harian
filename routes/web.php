@@ -1,11 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\AbsenController as AdminAbsenController;
 use App\Http\Controllers\Admin\DudiCOntroller;
 use App\Http\Controllers\Admin\JurusanController;
+use App\Http\Controllers\Admin\KegiatanController as AdminKegiatanController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\PembimbingController;
 use App\Http\Controllers\Admin\SiswaController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashbordController;
 use App\Http\Controllers\Siswa\AbsenController;
@@ -34,12 +35,15 @@ Route::get('/siswa/dashboard', [DashbordController::class, 'siswa'])->name('sisw
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('/absen/by-date', [AdminAbsenController::class, 'getByDate'])->name('absen.by-date');
         Route::get('/dashboard', [DashbordController::class, 'admin'])->name('dashboard');
         Route::resource('kelas', KelasController::class);
         Route::resource('siswa', SiswaController::class);
         Route::resource('pembimbing', PembimbingController::class);
-        Route::resource('jurusan', JurusanController::class,);
+        Route::resource('jurusan', JurusanController::class, );
         Route::resource('dudi', DudiCOntroller::class);
+        Route::resource('kegiatan',AdminKegiatanController::class);
+        Route::resource('absen', AdminAbsenController::class);
     });
 });
 
@@ -52,11 +56,13 @@ Route::prefix('pembimbing')->name('pembimbing.')->middleware('auth')->group(func
 
 Route::prefix('siswa')->name('siswa.')->middleware('auth')->group(function () {
 
+
     Route::middleware(['auth', 'role:siswa'])->group(function () {
+        Route::get('/absen/by-date', [AbsenController::class, 'getByDate'])->name('absen.by-date');
         Route::get('/dashboard', [DashbordController::class, 'siswa'])->name('dashboard');
         Route::resource('profile', ProfileController::class);
         Route::resource('kegiatan', KegiatanController::class);
         Route::resource('absen', AbsenController::class);
-        Route::get('/absen/by-date', [AbsenController::class,'getByDate'])->name('absen.by-date');
     });
 });
+

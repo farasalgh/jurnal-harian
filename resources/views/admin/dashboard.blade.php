@@ -25,7 +25,7 @@
       </div>
       <hr class="dark horizontal my-0">
       <div class="card-footer p-2 ps-3">
-        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
+        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span><a class="text-grey " href="{{ route('admin.jurusan.index') }}">Lihat total jurusan</a></p>
       </div>
     </div>
   </div>
@@ -44,7 +44,7 @@
       </div>
       <hr class="dark horizontal my-0">
       <div class="card-footer p-2 ps-3">
-        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span>than last month</p>
+        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span><a class="text-grey " href="{{ route('admin.siswa.index') }}">Lihat total Sosw</a></p>
       </div>
     </div>
   </div>
@@ -63,7 +63,7 @@
       </div>
       <hr class="dark horizontal my-0">
       <div class="card-footer p-2 ps-3">
-        <p class="mb-0 text-sm"><span class="text-danger font-weight-bolder">-2% </span>than yesterday</p>
+        <p class="mb-0 text-sm"><span class="text-danger font-weight-bolder">-2% </span><a class="text-grey " href="{{ route('admin.dudi.index') }}">Lihat total Dudi</a></p>
       </div>
     </div>
   </div>
@@ -82,7 +82,7 @@
       </div>
       <hr class="dark horizontal my-0">
       <div class="card-footer p-2 ps-3">
-        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span>than yesterday</p>
+        <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span><a class="text-seccondary" href="{{ route('admin.siswa.index') }}">Lihat total Siswa</a></p>
       </div>
     </div>
   </div>

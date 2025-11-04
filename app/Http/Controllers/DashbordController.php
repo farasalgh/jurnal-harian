@@ -33,11 +33,13 @@ class DashbordController extends Controller
 
     public function siswa()
     {
-        $totalKelas = Kelas::count();
-        $totalJurusan = Jurusan::count();
-        $totalDudi = Dudi::count();
-        $totalPembimbing = User::where('role', 'pembimbing')->count();
-        $totalSiswa = User::where('role', 'siswa')->count();
-        return view('siswa.dashboard', compact('totalKelas', 'totalJurusan', 'totalDudi', 'totalPembimbing', 'totalSiswa'));
+        $user = auth()->user();
+        $siswa = $user->siswa;
+
+        $totalKegiatan = $siswa->kegiatan()->count();
+        $totalAbsen = $siswa->absen()->count();
+
+        return view('siswa.dashboard', compact('totalKegiatan', 'totalAbsen'));
+
     }
 }
