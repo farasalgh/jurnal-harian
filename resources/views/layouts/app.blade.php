@@ -16,6 +16,7 @@
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
   <link id="pagestyle" href="/assets/css/material-dashboard.css?v=3.2.0" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -76,7 +77,7 @@
 
             <!-- Accordion Content -->
             <ul
-              class="nav flex-column ms-3 mt-1 {{ request()->routeIs('admin.siswa.') || request()->routeIs('admin.pembimbings.') ? '' : 'd-none' }}"
+              class="nav flex-column ms-3 mt-1 {{ request()->routeIs('admin.siswa.*') || request()->routeIs('admin.pembimbings.') ? '' : 'd-none' }}"
               id="kelolaUserMenu">
               <li class="nav-item">
                 <a href="{{ route('admin.siswa.index') }}"
@@ -98,7 +99,7 @@
 
         @if (Auth::user() && Auth::user()->role === 'admin')
           <li class="nav-item mt-1">
-            <a class="nav-link text-dark{{ request()->routeIs('admin.kelas.index') ? 'active bg-gradient-dark text-white' : '' }}"
+            <a class="nav-link text-dark{{ request()->routeIs('admin.kelas.*') ? 'active bg-gradient-dark text-white' : '' }}"
               href="{{ route('admin.kelas.index') }}">
               <i class="material-symbols-rounded opacity-5">co_present</i>
               <span class="nav-link-text ms-1">Kelola Kelas</span>
@@ -108,7 +109,7 @@
 
         @if (Auth::user() && Auth::user()->role === 'admin')
           <li class="nav-item mt-1">
-            <a class="nav-link text-dark{{ request()->routeIs('admin.jurusan.index') ? 'active bg-gradient-dark text-white' : '' }}"
+            <a class="nav-link text-dark{{ request()->routeIs('admin.jurusan.*') ? 'active bg-gradient-dark text-white' : '' }}"
               href="{{ route('admin.jurusan.index') }}">
               <i class="material-symbols-rounded opacity-5">category</i>
               <span class="nav-link-text ms-1">Kelola Jurusan</span>
@@ -118,7 +119,7 @@
 
         @if (Auth::user() && Auth::user()->role === 'admin')
           <li class="nav-item mt-1">
-            <a class="nav-link text-dark{{ request()->routeIs('admin.dudi.index') ? 'active bg-gradient-dark text-white' : '' }}"
+            <a class="nav-link text-dark{{ request()->routeIs('admin.dudi.*') ? 'active bg-gradient-dark text-white' : '' }}"
               href="{{ route('admin.dudi.index') }}">
               <i class="material-symbols-rounded opacity-5">work</i>
               <span class="nav-link-text ms-1">Kelola Dudi</span>
@@ -131,7 +132,7 @@
           <li class="nav-item mt-1">
             <a class="nav-link text-dark{{ request()->routeIs('admin.kegiatan.index') ? 'active bg-gradient-dark text-white' : '' }}"
               href="{{ route('admin.kegiatan.index') }}">
-              <i class="material-symbols-rounded opacity-5">work</i>
+              <i class="material-symbols-rounded opacity-5">search_activity</i>
               <span class="nav-link-text ms-1">Kelola kegiatan</span>
             </a>
           </li>
@@ -141,7 +142,7 @@
           <li class="nav-item mt-1">
             <a class="nav-link text-dark{{ request()->routeIs('admin.absen.index') ? 'active bg-gradient-dark text-white' : '' }}"
               href="{{ route('admin.absen.index') }}">
-              <i class="material-symbols-rounded opacity-5">work</i>
+              <i class="material-symbols-rounded opacity-5">calendar_check</i>
               <span class="nav-link-text ms-1">Kelola Absen</span>
             </a>
           </li>
@@ -149,7 +150,7 @@
 
         @if (Auth::user() && Auth::user()->role === 'siswa')
           <li class="nav-item mt-1">
-            <a class="nav-link text-dark{{ request()->routeIs('siswa.profile.index') ? 'active bg-gradient-dark text-white' : '' }}"
+            <a class="nav-link text-dark{{ request()->routeIs('siswa.profile.*') ? 'active bg-gradient-dark text-white' : '' }}"
               href="{{ route('siswa.profile.index') }}">
               <i class="material-symbols-rounded opacity-5">account_box</i>
               <span class="nav-link-text ms-1">Kelola Profile</span>
@@ -159,7 +160,7 @@
 
         @if (Auth::user() && Auth::user()->role === 'siswa')
           <li class="nav-item mt-1">
-            <a class="nav-link text-dark{{ request()->routeIs('siswa.kegiatan.index') ? 'active bg-gradient-dark text-white' : '' }}"
+            <a class="nav-link text-dark{{ request()->routeIs('siswa.kegiatan.*') ? 'active bg-gradient-dark text-white' : '' }}"
               href="{{ route('siswa.kegiatan.index') }}">
               <i class="material-symbols-rounded opacity-5">search_activity</i>
               <span class="nav-link-text ms-1">Kelola Kegiatan</span>
@@ -169,10 +170,40 @@
 
         @if (Auth::user() && Auth::user()->role === 'siswa')
           <li class="nav-item mt-1">
-            <a class="nav-link text-dark{{ request()->routeIs('siswa.absen.index') ? 'active bg-gradient-dark text-white' : '' }}"
+            <a class="nav-link text-dark{{ request()->routeIs('siswa.absen.*') ? 'active bg-gradient-dark text-white' : '' }}"
               href="{{ route('siswa.absen.index') }}">
               <i class="material-symbols-rounded opacity-5">calendar_check</i>
               <span class="nav-link-text ms-1">Kelola Absen</span>
+            </a>
+          </li>
+        @endif
+
+        @if (Auth::user() && Auth::user()->role === 'pembimbing')
+          <li class="nav-item mt-1">
+            <a class="nav-link text-dark{{ request()->routeIs('pembimbing.kegiatan.*') ? 'active bg-gradient-dark text-white' : '' }}"
+              href="{{ route('pembimbing.kegiatan.index') }}">
+              <i class="material-symbols-rounded opacity-5">search_activity</i>
+              <span class="nav-link-text ms-1">Kelola Kegiatan</span>
+            </a>
+          </li>
+        @endif
+
+        @if (Auth::user() && Auth::user()->role === 'pembimbing')
+          <li class="nav-item mt-1">
+            <a class="nav-link text-dark{{ request()->routeIs('pembimbing.absen.*') ? 'active bg-gradient-dark text-white' : '' }}"
+              href="{{ route('pembimbing.absen.index') }}">
+              <i class="material-symbols-rounded opacity-5">calendar_check</i>
+              <span class="nav-link-text ms-1">Kelola Absen</span>
+            </a>
+          </li>
+        @endif
+
+        @if (Auth::user() && Auth::user()->role === 'pembimbing')
+          <li class="nav-item mt-1">
+            <a class="nav-link text-dark{{ request()->routeIs('pembimbing.profile.*') ? 'active bg-gradient-dark text-white' : '' }}"
+              href="{{ route('pembimbing.profile.index') }}">
+              <i class="material-symbols-rounded opacity-5">account_box</i>
+              <span class="nav-link-text ms-1">Profile</span>
             </a>
           </li>
         @endif
@@ -228,6 +259,7 @@
     <div class="container-fluid py-4">
       @yield('content')
 
+      @stack('scripts')
     </div>
 
 

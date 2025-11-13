@@ -47,7 +47,7 @@ class SiswaController extends Controller
         $request->validate([
             'name' => 'required|string|',
             'email'=> 'required|email|unique:users,email,' . $siswa->id,
-            'password' => 'nullable|string|min:8',
+            'password' => 'nullable|string|min:6',
 
             'nis'=> 'required',
             'id_kelas' => 'required',

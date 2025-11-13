@@ -19,6 +19,6 @@ class RoleMiddleware
         if (Auth::check() && Auth::user()->role === $role) {
             return $next($request);
         }
-        abort(403, 'Unauthorized');
+        abort(403, 'Akses ditolak' );
     }
 }

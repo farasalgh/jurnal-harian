@@ -12,6 +12,9 @@ use App\Http\Controllers\DashbordController;
 use App\Http\Controllers\Siswa\AbsenController;
 use App\Http\Controllers\Siswa\KegiatanController;
 use App\Http\Controllers\Siswa\ProfileController;
+use App\Http\Controllers\Pembimbing\AbsenController as PembimbingAbsenController;
+use App\Http\Controllers\Pembimbing\KegiatanController as PembimbingKegiatanController;
+use App\Http\Controllers\Pembimbing\ProfileController as PembimbingProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -63,6 +66,19 @@ Route::prefix('siswa')->name('siswa.')->middleware('auth')->group(function () {
         Route::resource('profile', ProfileController::class);
         Route::resource('kegiatan', KegiatanController::class);
         Route::resource('absen', AbsenController::class);
+        Route::get('/absen/pulang/{id}', [AbsenController::class, 'absenPulang'])->name('absen.pulang');
+    });
+});
+
+Route::prefix('pembimbing')->name('pembimbing.')->middleware('auth')->group(function () {
+
+
+    Route::middleware(['auth', 'role:pembimbing'])->group(function () {
+        Route::get('/absen/by-date', [PembimbingAbsenController::class, 'getByDate'])->name('absen.by-date');
+        Route::get('/dashboard', [DashbordController::class, 'pembimbing'])->name('dashboard');
+        Route::resource('absen', PembimbingAbsenController::class);
+        Route::resource('kegiatan', PembimbingKegiatanController::class);
+        Route::resource('profile', PembimbingProfileController::class);
     });
 });
 

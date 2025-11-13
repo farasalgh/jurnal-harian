@@ -8,8 +8,10 @@
     <div class="container-fluid py-4">
         <div class="row">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="mb-0 fw-bold">Daftar Kegiatan</h4>
-                <a href="{{ route('siswa.kegiatan.create') }}" class="btn bg-gradient-dark">Tambah kegiatan</a>
+                <h4 class="fw-bold mb-4 d-flex align-items-center">
+                    <i class="material-symbols-rounded text-dark me-2">supervisor_account</i>
+                    Daftar Kegiatan Siswa Bimbingan
+                </h4>
             </div>
 
             {{-- Three Column Layout --}}
@@ -47,8 +49,6 @@
                                 {{ collect($bulanChunk)->sum(fn($b) => $kegiatan[$b]->flatten(1)->count()) }}
                             </span>
                         </div>
-
-
 
                         {{-- Loop per bulan --}}
                         @foreach ($bulanChunk as $bulan)
@@ -102,38 +102,27 @@
 
                                             {{-- Footer info --}}
                                             <div class="d-flex justify-content-between align-items-center text-xs text-muted mb-2">
-                                                <span>{{ $siswa->user->name ?? 'Siswa' }}</span>
+                                                <span>
+                                                    <i class="material-symbols-rounded me-1" style="font-size: 14px;">person</i>
+                                                    {{ $ktn->siswa->user->name ?? 'Siswa' }}
+                                                </span>
                                                 <span>{{ \Carbon\Carbon::parse($ktn->created_at)->format('d/m/y') }}</span>
                                             </div>
 
                                             <div class="d-flex justify-content-between align-items-center pt-2 border-top">
-                                                <a href="{{ route('siswa.kegiatan.show', $ktn->id) }}"
+                                                <a href="{{ route('pembimbing.kegiatan.show', $ktn->id) }}"
                                                     class="text-primary text-xs text-decoration-none d-flex align-items-center">
                                                     <i class="material-symbols-rounded me-1 d-flex align-items-center"
                                                         style="font-size: 16px;">visibility</i>
                                                     <span class="align-middle">Lihat Detail</span>
                                                 </a>
 
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <a href="{{ route('siswa.kegiatan.edit', $ktn->id) }}"
-                                                        class="btn btn-outline-warning d-flex align-items-center justify-content-center p-1"
-                                                        style="position: relative; top:7px; width:30px; height:30px;">
-                                                        <i class="material-symbols-rounded" style="font-size: 16px;">edit</i>
-                                                    </a>
-
-                                                    <form action="{{ route('siswa.kegiatan.destroy', $ktn->id) }}" method="POST"
-                                                        class="d-inline">
-                                                        @csrf @method('DELETE')
-                                                        <button type="submit"
-                                                            class="btn btn-outline-danger d-flex align-items-center justify-content-center p-1"
-                                                            style="position: relative; top:7px; width:30px; height:30px;"
-                                                            onclick="return confirm('Hapus kegiatan ini?')">
-                                                            <i class="material-symbols-rounded" style="font-size: 16px;">delete</i>
-                                                        </button>
-                                                    </form>
+                                                {{-- Pembimbing tidak edit/hapus --}}
+                                                <div class="text-muted small d-flex align-items-center">
+                                                    <i class="material-symbols-rounded me-1" style="font-size: 14px;">lock</i>
+                                                    Hanya lihat
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
                                 @empty
@@ -143,7 +132,6 @@
                         @endforeach
                     </div>
                 @endforeach
-
             </div>
 
         </div>

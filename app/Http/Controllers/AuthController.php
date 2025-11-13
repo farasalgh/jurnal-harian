@@ -24,7 +24,7 @@ class AuthController extends Controller
         //
         $crendentials = $request->validate([
             'email' => ['required', 'email'],
-            'password' => ['required', 'min:8'],
+            'password' => ['required', 'min:6'],
         ]);
 
         if (Auth::attempt($crendentials)) {

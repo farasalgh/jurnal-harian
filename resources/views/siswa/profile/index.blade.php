@@ -7,16 +7,21 @@
 @section('content')
     <div class="container-fluid px-2 px-md-4">
         <div class="page-header min-height-300 border-radius-xl mt-4"
-            style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+          style="background-image: url('{{ asset('static/landscape.jpg') }}');">
             <span class="mask  bg-gradient-dark  opacity-6"></span>
         </div>
         <div class="card card-body mx-2 mx-md-2 mt-n6">
             <div class="row gx-4 mb-2">
                 <div class="col-auto">
-                    <div class="avatar avatar-xl position-relative">
-                        <img src="../assets/img/bruce-mars.jpg" alt="profile_image"
-                            class="w-100 border-radius-lg shadow-sm">
-                    </div>
+               <div class="avatar position-relative" 
+                    style="width: 85px; height: 85px; overflow: hidden; border-radius: 10px;">
+                    <img src="{{ $siswa->photo_profile 
+                                ? asset('storage/' . $siswa->photo_profile) 
+                                : asset('static/profile.jpg') }}"
+                        alt="Foto Profil"
+                        class="w-100 h-100 shadow-sm"
+                        style="object-fit: cover;">
+                </div>
                 </div>
                 <div class="col-auto my-auto">
                     <div class="h-100">
@@ -144,8 +149,11 @@
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
                                     @if ($pembimbing)
                                         <div class="avatar me-3">
-                                            <img src="../assets/img/kal-visuals-square.jpg" alt="kal"
-                                                class="border-radius-lg shadow">
+                                            <img src="{{ $pembimbing->photo_profile 
+                                                        ? asset('storage/' . $pembimbing->photo_profile) 
+                                                        : asset('static/profile.jpg') }}" 
+                                                        alt="Foto" 
+                                                        class="border-radius-lg shadow">
                                         </div>
                                         <div class="d-flex align-items-start flex-column justify-content-center">
                                             <h6 class="mb-0 text-sm">{{ $pembimbing->name }}</h6>
@@ -165,7 +173,7 @@
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
                                     @if ($dudi)
                                         <div class="avatar me-3">
-                                            <img src="../assets/img/kal-visuals-square.jpg" alt="kal"
+                                            <img src="{{ asset('static/profile.jpg') }}" alt="kal"
                                                 class="border-radius-lg shadow">
                                         </div>
                                         <div class="d-flex align-items-start flex-column justify-content-center">
@@ -181,7 +189,7 @@
                                 <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
                                     @if ($dudi)
                                         <div class="avatar me-3">
-                                            <img src="../assets/img/kal-visuals-square.jpg" alt="kal"
+                                            <img src="{{ asset('static/profile.jpg') }}" alt="kal"
                                                 class="border-radius-lg shadow">
                                         </div>
                                         <div class="d-flex align-items-start flex-column justify-content-center">
@@ -196,7 +204,6 @@
                                 </li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -212,12 +219,20 @@
                                 aria-label="Close"></button>
                         </div>
 
-                        <form action="{{ route('siswa.profile.update', $siswa->id) }}" method="POST">
+                        <form action="{{ route('siswa.profile.update', $siswa->id) }}" method="POST"   enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
-                            <div class="modal-body px-4">
-                                <div class="row">
+                                    <div class="modal-body px-4">
+                                     <div class="row">
+                                        <div class="col-md-6">
+                                        <div class="input-group input-group-outline my-3">
+                                            <label class="form-label">Foto Profil</label>
+                                            <input type="file" name="photo_profile" class="form-control">
+                                        </div>
+                                    </div>
+
+
                                     <div class="col-md-6">
                                         <div class="input-group input-group-outline my-3">
                                             <label class="form-label">Nama Lengkap</label>
@@ -337,7 +352,8 @@
                             <p class="text-sm">Kegiatan PKL baru-baru ini..</p>
                         </div>
                         <div class="row">
-                            @foreach($kegiatan->sortByDesc('created_at')->take(4) as $keg)    
+                            @if ($kegiatan->isNotEmpty())
+                             @foreach($kegiatan->sortByDesc('created_at')->take(4) as $keg)    
                             <div class="col-xl-3 col-md-6 mb-xl-0 mb-4">
                                 <div class="card card-blog card-plain">
                                  <div class="card-header p-0 m-2 overflow-hidden" style="height: 200px; border-radius: 1rem;">
@@ -391,6 +407,11 @@
                                 </div>
                             </div>
                             @endforeach
+                            @else
+                            <div class="d-flex justify-content-center">
+                                <p>Tidak ada kegiatan baru-baru ini</p>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

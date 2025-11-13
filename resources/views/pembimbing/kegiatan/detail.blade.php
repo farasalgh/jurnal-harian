@@ -9,8 +9,9 @@
                     <div class="flex-grow-1 me-4">
                         <div class="d-flex align-items-center mb-2">
                             <h4 class="mb-0 fw-bold text-dark">
-                                {{ \Illuminate\Support\Str::words($kegiatan->keterangan_kegiatan, 10, '...') }}</h4>
-                            <span class="badge bg-gradient-dark ms-3">{{ $siswa->kelas->kelas ?? 'Kelas' }}</span>
+                                {{ \Illuminate\Support\Str::words($kegiatan->keterangan_kegiatan, 10, '...') }}
+                            </h4>
+                            <span class="badge bg-gradient-dark ms-3">{{ $kegiatan->siswa->kelas->kelas ?? 'Kelas' }}</span>
                         </div>
 
                         <p class="text-muted mb-3">
@@ -20,7 +21,7 @@
                         <div class="d-flex flex-wrap gap-2 align-items-center">
                             <div class="d-flex align-items-center">
                                 <i class="fas fa-user-circle me-2 text-muted"></i>
-                                <span class="fw-medium">{{ $siswa->user->name }}</span>
+                                <span class="fw-medium">{{ $kegiatan->siswa->user->name }}</span>
                             </div>
                             <div class="vr"></div>
                             <div class="d-flex align-items-center">
@@ -32,7 +33,7 @@
                     </div>
 
                     <div class="text-center">
-                        <p class="small fw-semibold mb-0">{{ $siswa->dudi->nama_dudi }}</p>
+                        <p class="small fw-semibold mb-0">{{ $kegiatan->siswa->dudi->nama_dudi }}</p>
                     </div>
                 </div>
             </div>
@@ -80,7 +81,7 @@
                             <div class="col-md-8">
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-map-marker-alt text-primary me-2"></i>
-                                    {{ $siswa->dudi->nama_dudi }}
+                                    {{ $kegiatan->siswa->dudi->nama_dudi }}
                                 </div>
                             </div>
                         </div>
@@ -90,7 +91,7 @@
                             <div class="col-md-8">
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-user-tie text-primary me-2"></i>
-                                    {{ $siswa->dudi->pembimbing }}
+                                    {{ $kegiatan->siswa->dudi->pembimbing }}
                                 </div>
                             </div>
                         </div>
@@ -115,7 +116,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -160,30 +160,54 @@
                 <div class="card shadow-sm border-0">
                     <div class="card-header bg-transparent border-0 py-3">
                         <h5 class="mb-0 fw-bold text-dark">
-                            <i class="fas fa-sticky-note text-primary me-2"></i>Catatan Pembimbing
+                            Catatan Pembimbing
                         </h5>
                     </div>
                     <div class="card-body">
-                        @if (!empty($kegiatan->catatan_pembimbing))
-                            <div class="bg-light p-4 rounded">
-                                <div class="d-flex align-items-start">
-                                    <div class="flex-grow-1">
-                                        <p class="mb-3">{{ $kegiatan->catatan_pembimbing }}</p>
-                                        <div class="d-flex align-items-center text-muted small">
-                                            <i class="fas fa-clock me-1"></i>
-                                            Diperbarui:
-                                            {{ \Carbon\Carbon::parse($kegiatan->updated_at)->translatedFormat('d F Y, H:i') }}
-                                        </div>
-                                    </div>
-                                    <div class="ms-3">
-                                        <span class="badge bg-gradient-dark">{{ $siswa->pembimbing->name }}</span>
-                                    </div>
-                                </div>
+                        @if(session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="fas fa-check-circle me-2"></i>
+                                {{ session('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             </div>
-                        @else
-                            <div class="text-center py-5">
-                                <i class="fas fa-sticky-note fa-3x text-muted mb-3"></i>
-                                <p class="text-muted mb-0">Belum ada catatan pembimbing untuk kegiatan ini.</p>
+                        @endif
+
+                        <form action="{{ route('pembimbing.kegiatan.update', $kegiatan->id) }}" method="POST">
+                            @csrf @method('PUT')
+
+                            <div class="mb-4">
+                                <textarea name="catatan_pembimbing" id="catatan_pembimbing" class="form-control" rows="6"
+                                    placeholder="Tuliskan catatan untuk siswa...">{{ old('catatan_pembimbing', $kegiatan->catatan_pembimbing) }}</textarea>
+                                @error('catatan_pembimbing')
+                                    <div class="text-danger small mt-2">
+                                        <i class="fas fa-exclamation-circle me-1"></i>{{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="text-muted small">
+                                    @if($kegiatan->updated_at)
+                                        <i class="fas fa-clock me-1"></i>
+                                        Terakhir diperbarui:
+                                        {{ \Carbon\Carbon::parse($kegiatan->updated_at)->translatedFormat('d F Y, H:i') }}
+                                    @endif
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i>Simpan Catatan
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Preview existing notes -->
+                        @if($kegiatan->catatan_pembimbing && !old('catatan_pembimbing'))
+                            <div class="mt-4 pt-4 border-top">
+                                <h6 class="fw-semibold mb-3">
+                                    <i class="fas fa-eye me-2 text-primary"></i>Pratinjau Catatan
+                                </h6>
+                                <div class="bg-light p-4 rounded">
+                                    <p class="mb-0 text-dark">{{ $kegiatan->catatan_pembimbing }}</p>
+                                </div>
                             </div>
                         @endif
                     </div>
@@ -205,7 +229,6 @@
             border-bottom: 3px solid #dee2e6;
         }
 
-
         .card {
             border-radius: 12px;
         }
@@ -223,6 +246,22 @@
         .lightbox:hover img {
             transform: scale(1.02);
         }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.1);
+        }
+
+        .alert {
+            border-radius: 8px;
+            border: none;
+        }
     </style>
 
     <!-- Lightbox CSS -->
@@ -236,6 +275,11 @@
             'resizeDuration': 200,
             'wrapAround': true,
             'imageFadeDuration': 300
+        });
+
+        // Auto-focus on textarea when catatan tab is shown
+        document.getElementById('catatan-tab').addEventListener('shown.bs.tab', function () {
+            document.getElementById('catatan_pembimbing').focus();
         });
     </script>
 @endsection

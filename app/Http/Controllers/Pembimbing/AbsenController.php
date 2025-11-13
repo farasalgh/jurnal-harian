@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Pembimbing;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absen;
@@ -14,11 +14,13 @@ class AbsenController extends Controller
      */
     public function index()
     {
-        $absens = Absen::with(['siswa'])
+        $pembimbing = auth()->user();
+        $siswaIds = $pembimbing->pembimbing()->pluck('id');
+
+        $absens = Absen::whereIn('id_siswa', $siswaIds)
             ->select('tanggal_absensi', 'status', DB::raw('count(*) as total'))
             ->groupBy('tanggal_absensi', 'status')
             ->get();
-        ;
 
         $events = $absens->map(function ($absen) {
             return [
@@ -34,15 +36,18 @@ class AbsenController extends Controller
             ];
         });
 
-        return view('admin.absen.index', compact('events'));
+        return view('pembimbing.absen.index', compact('events'));
     }
-
 
     public function getByDate(Request $request)
     {
         $tanggal = $request->input('tanggal');
+        $pembimbing = auth()->user();
 
-        $absens = Absen::with(['siswa.user'])
+        $siswaIds = $pembimbing->pembimbing()->pluck('id');
+
+        $absens = Absen::whereIn('id_siswa', $siswaIds)
+            ->with(['siswa.user'])
             ->whereDate('tanggal_absensi', $tanggal)
             ->get();
 
@@ -53,7 +58,7 @@ class AbsenController extends Controller
         $data = $absens->map(function ($absen) {
             return [
                 'nama' => $absen->siswa->user->name ?? 'Tidak diketahui',
-                'status' => ucfirst($absen->status ?? '-'),
+                'status' => $absen->status ?? '-',
             ];
         });
 

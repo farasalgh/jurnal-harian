@@ -86,7 +86,7 @@ class DudiCOntroller extends Controller
         Dudi::find($id)->update([
             "nama_dudi"=> $request->nama_dudi,
             "jenis_dudi"=> $request->jenis_dudi,
-            "alamat"=> $request->alamat,
+            "alamat"=> $request->alamat                     ,
             "kontak"=> $request->kontak,
             "pimpinan"=> $request->pimpinan,
             "pembimbing"=> $request->pembimbing,

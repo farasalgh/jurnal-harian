@@ -9,6 +9,7 @@ class Siswa extends Model
     //
     protected $fillable = ([
         'id_users',
+        'photo_profile',
         'id_kelas',
         'id_jurusan',
         'nis',

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Pembimbing;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kegiatan;
@@ -14,7 +14,12 @@ class KegiatanController extends Controller
      */
     public function index()
     {
-        $kegiatan = Kegiatan::with(['siswa.user'])
+        $pembimbing = auth()->user();
+
+        $siswaIds = $pembimbing->pembimbing()->pluck('id');
+
+        $kegiatan = Kegiatan::whereIn('id_siswa', $siswaIds)
+            ->with(['siswa.user']) 
             ->orderBy('created_at', 'asc')
             ->get()
             ->groupBy(function ($item) {
@@ -26,7 +31,7 @@ class KegiatanController extends Controller
                 });
             });
 
-        return view('pembimbing.kegiatan.index', compact( 'kegiatan'));
+        return view('pembimbing.kegiatan.index', compact('pembimbing', 'kegiatan'));
     }
 
     /**
@@ -51,6 +56,15 @@ class KegiatanController extends Controller
     public function show(string $id)
     {
         //
+        $pembimbing = auth()->user();
+
+        $siswa = $pembimbing->pembimbing()->pluck('id');
+        $kegiatan = Kegiatan::where('id', $id)
+            ->whereIn('id_siswa', $siswa)
+            ->with('siswa.user')
+            ->firstOrFail();
+
+        return view('pembimbing.kegiatan.detail', compact('pembimbing', 'kegiatan'));
     }
 
     /**
@@ -67,6 +81,22 @@ class KegiatanController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $request->validate([
+            'catatan_pembimbing' => 'required|string',
+        ]);
+
+        $pembimbing = auth()->user();
+        $siswa = $pembimbing->pembimbing()->pluck('id');
+
+        $kegiatan = Kegiatan::where('id', $id)
+            ->whereIn('id_siswa', $siswa)
+            ->firstOrFail();
+
+        $kegiatan->update([
+            'catatan_pembimbing' => $request->catatan_pembimbing,
+        ]);
+
+        return redirect()->back()->with('success', 'success menambahkan catatan');
     }
 
     /**
