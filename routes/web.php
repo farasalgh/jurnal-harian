@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\KegiatanController as AdminKegiatanController;
 use App\Http\Controllers\Admin\KelasController;
 use App\Http\Controllers\Admin\PembimbingController;
+use App\Http\Controllers\Admin\PenilaianController;
 use App\Http\Controllers\Admin\SiswaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashbordController;
@@ -15,7 +16,9 @@ use App\Http\Controllers\Siswa\ProfileController;
 use App\Http\Controllers\Pembimbing\AbsenController as PembimbingAbsenController;
 use App\Http\Controllers\Pembimbing\KegiatanController as PembimbingKegiatanController;
 use App\Http\Controllers\Pembimbing\ProfileController as PembimbingProfileController;
+use \App\Http\Controllers\Pembimbing\PenilaianController as PembimbingPenilaianController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -45,8 +48,9 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::resource('pembimbing', PembimbingController::class);
         Route::resource('jurusan', JurusanController::class, );
         Route::resource('dudi', DudiCOntroller::class);
-        Route::resource('kegiatan',AdminKegiatanController::class);
+        Route::resource('kegiatan', AdminKegiatanController::class);
         Route::resource('absen', AdminAbsenController::class);
+        Route::resource('penilaian', PenilaianController::class);
     });
 });
 
@@ -56,6 +60,17 @@ Route::prefix('pembimbing')->name('pembimbing.')->middleware('auth')->group(func
         Route::get('/dashboard', [DashbordController::class, 'pembimbing'])->name('dashboard');
     });
 });
+
+Route::prefix('pembimbingDudi')->name('pembimbingDudi.')->middleware(['auth', 'role:pembimbingDudi'])->group(function () {
+
+    Route::get('/dashboard', [DashbordController::class, 'pembimbingDudi'])->name('dashboard');
+    Route::get('/penilaian/form/', [PembimbingPenilaianController::class, 'form'])
+        ->name('penilaian.form');
+    Route::post('/penilaian/save', [PembimbingPenilaianController::class, 'save'])
+        ->name('penilaian.save');
+    Route::get('/penilaian', [PembimbingPenilaianController::class, 'index'])->name('penilaian.index');
+});
+
 
 Route::prefix('siswa')->name('siswa.')->middleware('auth')->group(function () {
 

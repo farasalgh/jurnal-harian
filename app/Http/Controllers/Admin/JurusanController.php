@@ -23,7 +23,7 @@ class JurusanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'jurusan' => 'required',
+            'jurusan' => 'required|unique:jurusans,jurusan',
         ]);
 
         Jurusan::create($request->all());
@@ -39,7 +39,7 @@ class JurusanController extends Controller
     public function update(Request $request, Jurusan $jurusan)
     {
         $request->validate([
-            'jurusan' => 'required',
+            'jurusan' => 'required|unique:jurusans,jurusan,' . $jurusan->id,
         ]);
 
         $data = [

@@ -60,10 +60,22 @@ class DashbordController extends Controller
         return view('pembimbing.dashboard', compact('siswa', 'pembimbing', 'absen', 'kegiatanTerbaru', 'labels', 'totals'));
     }
 
+    public function pembimbingDudi()
+    {
+        return view('pembimbingDudi.dashboard');
+    }
+
     public function siswa()
     {
         $user = auth()->user();
         $siswa = $user->siswa;
+
+        if (!$siswa) {
+            $totalKegiatan = 0;
+            $totalAbsen = 0;
+
+            return view('siswa.dashboard', compact('totalKegiatan', 'totalAbsen'));
+        }
 
         $totalKegiatan = $siswa->kegiatan()->count();
         $totalAbsen = $siswa->absen()->count();
@@ -72,3 +84,4 @@ class DashbordController extends Controller
 
     }
 }
+    

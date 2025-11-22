@@ -17,15 +17,30 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-
         $siswa = $user->siswa;
-        $pembimbing = $siswa ? $siswa->pembimbing : null;
-        $kelas = Kelas::all();
-        $jurusan = Jurusan::all();
-        $dudi = $siswa ? $siswa->dudi : null;
-        $kegiatan = $siswa ? $siswa->kegiatan : null;
 
-        return view("siswa.profile.index", compact('siswa', 'user', 'pembimbing', 'kelas', 'jurusan', 'dudi', 'kegiatan'));
+        if (!$siswa) {
+            return view("siswa.profile.index", [
+                'siswa' => null,
+                'user' => $user,
+                'pembimbing' => null,
+                'kelas' => collect(),
+                'jurusan' => collect(),
+                'dudi' => null,
+                'kegiatan' => collect(),
+            ]);
+        }
+
+        return view("siswa.profile.index", [
+            'siswa' => $siswa,
+            'user' => $user,
+            'pembimbing' => $siswa->pembimbing,
+            'kelas' => Kelas::all(),
+            'jurusan' => Jurusan::all(),
+            'dudi' => $siswa->dudi,
+            'kegiatan' => $siswa->kegiatan,
+        ]);
+
     }
 
     public function update(Request $request)
@@ -38,49 +53,47 @@ class ProfileController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|min:6',
-            'id_kelas' => 'required|exists:kelas,id',
-            'id_jurusan' => 'required|exists:jurusans,id',
-            'tempat_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date',
-            'gender' => 'required|in:laki-laki,perempuan',
-            'gol_darah' => 'required|string|max:3',
-            'nomor' => 'required|string|max:20',
-            'alamat' => 'required|string',
+            'tempat_lahir' => 'nullable|string|max:255',
+            'tanggal_lahir' => 'nullable|date',
+            'gender' => 'nullable|in:Laki-laki,Perempuan',
+            'gol_darah' => 'nullable|string|max:3',
+            'nomor' => 'nullable|string|max:20',
+            'alamat' => 'nullable|string',
         ]);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
+        // Update user data
+        $dataUser = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $user->password,
+        ];
 
         if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+            $dataUser['password'] = Hash::make($request->password);
         }
 
-        $user->save();
-
-        if ($request->hasFile('photo_profile')) {
-            $photoPath = $request->file('photo_profile')->store('profile_photos', 'public');
-
-            // Hapus foto lama
-            if ($siswa->photo_profile) {
-                Storage::disk('public')->delete($siswa->photo_profile);
-            }
-
-            $siswa->photo_profile = $photoPath;
-        }
-
-        $siswa->fill([
-            'id_kelas' => $request->id_kelas,
-            'id_jurusan' => $request->id_jurusan,
+        // Update siswa data
+        $dataSiswa = [
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'gender' => $request->gender,
             'gol_darah' => $request->gol_darah,
             'nomor' => $request->nomor,
             'alamat' => $request->alamat,
-        ]);
+        ];
 
-        $siswa->save();
+        if ($request->hasFile('photo_profile')) {
+            $photoPath = $request->file('photo_profile')->store('profile_photos', 'public');
+            if ($siswa->photo_profile) {
+                Storage::disk('public')->delete($siswa->photo_profile);
+            }
+            $dataSiswa['photo_profile'] = $photoPath;
+        }
+
+        $user->update($dataUser);
+        $siswa->update($dataSiswa);
 
         return redirect()->route('siswa.profile.index')->with('success', 'Profil berhasil diperbarui!');
     }
+
 }

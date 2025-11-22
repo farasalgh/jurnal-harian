@@ -42,7 +42,7 @@
                             <td class="align-middle text-center text-sm">{{ $sw->created_at->format('d-m-Y H:i') }}</td>
                             <td class="align-middle text-center">
                                 <a style="position: relative; top:7px;" href="{{ route('admin.siswa.edit', $sw->user->id) }}" class="btn btn-warning">Edit</a>
-                                <form action="{{ route('admin.siswa.destroy', $sw->user->id) }}" method="POST" class="d-inline">
+                                <form action="{{ route('admin.siswa.destroy', $sw->id) }}" method="POST" class="d-inline">
                                     @csrf @method('DELETE')
                                     <button style="position: relative; top:7px;" class="btn btn-danger" onclick="return confirm('Hapus data ini?')">Hapus</button>
                                 </form>

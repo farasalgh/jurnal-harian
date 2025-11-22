@@ -13,11 +13,16 @@ class Dudi extends Model
         'alamat',
         'kontak',
         'pimpinan',
-        'pembimbing', 
+        'pembimbing_id', 
     ]);
 
     public function siswa()
     {
         return $this->hasMany(Siswa::class, 'id_users');
+    }
+
+     public function user()
+    {
+        return $this->belongsTo(User::class, 'pembimbing_id');
     }
 }

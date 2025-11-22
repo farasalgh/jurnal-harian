@@ -19,6 +19,12 @@ class KegiatanController extends Controller
         $user = auth()->user();
         $siswa = $user->siswa;
 
+        if (!$siswa) {
+            $kegiatan = collect();
+
+            return view('siswa.kegiatan.index', compact('kegiatan'));
+        }
+
         $kegiatan = $siswa->kegiatan()
             ->orderBy('created_at', 'asc')
             ->get()
@@ -129,9 +135,11 @@ class KegiatanController extends Controller
         ]);
 
         if ($request->hasFile('dokumentasi')) {
-            if ($kegiatan->dokumentasi && Storage::disk('public')->exists
-                ($kegiatan->dokumentasi)) {
-                    Storage::disk('public')->delete($kegiatan->dokumentasi);
+            if (
+                $kegiatan->dokumentasi && Storage::disk('public')->exists
+                ($kegiatan->dokumentasi)
+            ) {
+                Storage::disk('public')->delete($kegiatan->dokumentasi);
             }
             $imagePath = $request->file('dokumentasi')->store('dokumentasi', 'public');
             $data['dokumentasi'] = $imagePath;
@@ -148,6 +156,10 @@ class KegiatanController extends Controller
     public function destroy(string $id)
     {
         $kegiatan = Kegiatan::findOrFail($id);
+
+        if ($kegiatan->dokumentasi) {
+            Storage::disk('public')->delete($kegiatan->dokumentasi);
+        }
         $kegiatan->delete();
 
         return redirect()->route('siswa.kegiatan.index')->with('success', 'berhasil menghapus kegiatan');

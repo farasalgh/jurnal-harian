@@ -23,7 +23,7 @@ class KelasController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kelas' => 'required',
+            'kelas' => 'required|unique:kelas,kelas',
         ]);
 
         Kelas::create([
@@ -44,7 +44,7 @@ class KelasController extends Controller
         $kelas = Kelas::find($id);
 
         $request->validate([
-            'kelas' => 'required',
+            'kelas' => 'required|unique:kelas,kelas,' . $kelas->id,
         ]);
 
 

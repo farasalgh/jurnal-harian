@@ -37,6 +37,8 @@ class AuthController extends Controller
                 return redirect()->route('pembimbing.dashboard');
             } else if ($role == 'siswa') {
                 return redirect()->route('siswa.dashboard');
+            } else if ($role == 'pembimbingDudi') {
+                return redirect()->route('pembimbingDudi.dashboard');
             } else {
                 Auth::logout();
                 return redirect()->back()->with('error', 'role tidak ditemukan');

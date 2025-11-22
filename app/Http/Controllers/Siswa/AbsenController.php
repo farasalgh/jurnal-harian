@@ -17,8 +17,14 @@ class AbsenController extends Controller
     public function index()
     {
         $user = auth()->user();
-
         $siswa = $user->siswa;
+
+        if (!$siswa) {
+            $absens = collect();
+            $events = collect();
+
+            return view('siswa.absen.index', compact('absens', 'events'));
+        }
 
         $absens = $siswa->absen;
 

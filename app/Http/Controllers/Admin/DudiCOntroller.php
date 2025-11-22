@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dudi;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DudiCOntroller extends Controller
@@ -23,9 +24,10 @@ class DudiCOntroller extends Controller
      */
     public function create()
     {
-        //
-        return view("admin.dudi.create");
+        $pembimbings = User::where('role', 'pembimbingDudi')->get();
+        return view("admin.dudi.create", compact("pembimbings"));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -39,10 +41,18 @@ class DudiCOntroller extends Controller
             "alamat" => "required",
             "kontak" => "required",
             "pimpinan" => "required",
-            "pembimbing" => "required",
+            "pembimbing_id" => "required|exists:users,id",
         ]);
 
-        Dudi::create($request->all());
+        Dudi::create([
+            "nama_dudi" => $request->nama_dudi,
+            "jenis_dudi" => $request->jenis_dudi,
+            "alamat" => $request->alamat,
+            "kontak" => $request->kontak,
+            "pimpinan" => $request->pimpinan,
+            "pembimbing_id" => $request->pembimbing_id,
+        ]);
+
 
         return redirect()->route("admin.dudi.index")->with("success", "Berhasil menambahkan dudi");
     }
@@ -62,11 +72,12 @@ class DudiCOntroller extends Controller
      */
     public function edit(string $id)
     {
-        //
         $dudi = Dudi::find($id);
+        $pembimbings = User::where('role', 'pembimbingDudi')->get();
 
-        return view("admin.dudi.edit", compact("dudi"));
+        return view("admin.dudi.edit", compact("dudi", "pembimbings"));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -80,19 +91,19 @@ class DudiCOntroller extends Controller
             "alamat" => "required",
             "kontak" => "required",
             "pimpinan" => "required",
-            "pembimbing" => "required",
+            "pembimbing_id" => "required|exists:users,id",
         ]);
 
         Dudi::find($id)->update([
-            "nama_dudi"=> $request->nama_dudi,
-            "jenis_dudi"=> $request->jenis_dudi,
-            "alamat"=> $request->alamat                     ,
-            "kontak"=> $request->kontak,
-            "pimpinan"=> $request->pimpinan,
-            "pembimbing"=> $request->pembimbing,
+            "nama_dudi" => $request->nama_dudi,
+            "jenis_dudi" => $request->jenis_dudi,
+            "alamat" => $request->alamat,
+            "kontak" => $request->kontak,
+            "pimpinan" => $request->pimpinan,
+            "pembimbing_id" => $request->pembimbing_id,
         ]);
 
-        return redirect()->route("admin.dudi.index")->with("success","Dudi berhasil diupdate");
+        return redirect()->route("admin.dudi.index")->with("success", "Dudi berhasil diupdate");
     }
 
     /**

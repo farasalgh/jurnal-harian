@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('penilaian', function (Blueprint $table) {
+        Schema::create('softskills', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('siswa_id')->constrained('siswa')->onDelete('cascade');
-            $table->enum('kereteria', ['soft_skill','hard_skill']);
             $table->string('aspek_penilaian');
-            $table->string('nilai');
-            $table->string('kriteria_nilai');
+            $table->string('kriteria');
             $table->timestamps();
         });
     }
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('penilaian');
+        Schema::dropIfExists('softskills');
     }
 };

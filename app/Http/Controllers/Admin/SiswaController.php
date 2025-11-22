@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Dudi;
 use App\Models\Jurusan;
+use App\Models\Kegiatan;
 use App\Models\Kelas;
 use App\Models\Siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class SiswaController extends Controller
 {
@@ -39,29 +41,29 @@ class SiswaController extends Controller
         $dudi = Dudi::all();
         $pembimbing = User::where('role', 'pembimbing')->get();
 
-        return view('admin.siswa.edit', compact('siswa','userData', 'siswaData', 'kelas','jurusan','dudi', 'pembimbing'));
+        return view('admin.siswa.edit', compact('siswa', 'userData', 'siswaData', 'kelas', 'jurusan', 'dudi', 'pembimbing'));
     }
 
     public function update(Request $request, User $siswa)
-    {  
+    {
         $request->validate([
             'name' => 'required|string|',
-            'email'=> 'required|email|unique:users,email,' . $siswa->id,
+            'email' => 'required|email|unique:users,email,' . $siswa->id,
             'password' => 'nullable|string|min:6',
-
-            'nis'=> 'required',
+            'nis' => 'required|unique:siswas,nis,' . $siswa->id,
             'id_kelas' => 'required',
-            'id_pembimbing'=> 'required',
-            'id_jurusan'=> 'required',
+            'id_pembimbing' => 'required',
+            'id_jurusan' => 'required',
             'id_dudi' => 'required',
         ]);
 
         $siswa->name = $request->name;
         $siswa->email = $request->email;
 
-        if($request->filled('password')) {
+        if ($request->filled('password')) {
             $siswa->password = Hash::make($request->password);
-        };
+        }
+        ;
 
         $siswa->save();
 
@@ -74,7 +76,7 @@ class SiswaController extends Controller
         $siswaData->id_pembimbing = $request->id_pembimbing;
         $siswaData->save();
 
-        return redirect()->route('admin.siswa.index')->with('success','Berhasil mengupdate data');
+        return redirect()->route('admin.siswa.index')->with('success', 'Berhasil mengupdate data');
     }
 
     public function store(Request $request)
@@ -82,7 +84,7 @@ class SiswaController extends Controller
         $request->validate([
             'id_kelas' => 'required',
             'id_jurusan' => 'required',
-            'nis' => 'required',
+            'nis' => 'required|unique:siswas,nis',
             'id_dudi' => 'required',
             'id_pembimbing' => 'required',
             'name' => 'required',
@@ -95,7 +97,7 @@ class SiswaController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'siswa',
-        ]); 
+        ]);
 
         Siswa::create([
             'id_users' => $user->id,
@@ -110,12 +112,23 @@ class SiswaController extends Controller
         return redirect()->route('admin.siswa.index')->with('success', 'berhasil menambahkan data siswa');
     }
 
-    public function destroy($id)
+    public function destroy(Siswa $siswa)
     {
-        $user = User::find($id);
+        $user = User::find($siswa->id_users);
 
+        $kegiatans = Kegiatan::where('id_siswa', $siswa->id)->get();
+        foreach ($kegiatans as $kegiatan) {
+            if ($kegiatan->dokumentasi) {
+                Storage::disk('public')->delete($kegiatan->dokumentasi);
+            }
+        }
+
+        if ($siswa->photo_profile) {
+            Storage::disk('public')->delete($siswa->photo_profile);
+        }
         $user->delete();
+        $siswa->delete();
 
-        return redirect()->route('admin.siswa.index')->with('success','Berhasil menghapus data ini');
+        return redirect()->route('admin.siswa.index')->with('success', 'Berhasil menghapus data ini');
     }
 }
